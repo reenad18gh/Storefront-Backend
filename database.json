@@ -2,15 +2,17 @@
   "dev": {
     "driver": "pg",
     "host": "127.0.0.1",
-    "database": "store_dev",
+    "port": 5432,
+    "database": "storefront",
     "user": "postgres",
-    "password": "12345"
+    "password": "postgres"
   },
   "test": {
     "driver": "pg",
     "host": "127.0.0.1",
-    "database": "store_test",
+    "port": 5432,
+    "database": "storefront_test",
     "user": "postgres",
-    "password": "12345"
+    "password": "postgres"
   }
 }
