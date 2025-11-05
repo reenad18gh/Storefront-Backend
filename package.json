@@ -1,38 +1,12 @@
 {
-  "name": "storefront-backend",
-  "version": "1.0.0",
-  "main": "dist/server.js",
-  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "ts-node src/server.ts",
-    "test": "npm run build && jasmine",
-    "migrate:up": "db-migrate up -e dev",
-    "migrate:down": "db-migrate down -e dev",
-    "migrate:test": "db-migrate up -e test"
-  },
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-    "db-migrate": "^0.11.13",
-    "db-migrate-pg": "^1.5.2",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2",
-    "pg": "^8.13.1"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
-    "@types/jasmine": "^5.1.4",
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.14.12",
-    "@types/supertest": "^2.0.16",
-    "jasmine": "^5.2.0",
-    "supertest": "^7.0.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "watch": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "migrate": "db-migrate up -e dev",
+    "migrate:test": "db-migrate up -e test",
+    "reset": "db-migrate reset -e dev",
+    "reset:test": "db-migrate reset -e test",
+    "test": "ENV=test npm run migrate:test && jest"
   }
 }
