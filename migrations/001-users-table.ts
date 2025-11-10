@@ -1,19 +1,15 @@
-'use strict';
+import { Knex } from 'knex';
 
-var dbm;
-exports.setup = function(options) { dbm = options.dbmigrate; };
+export async function up(knex: Knex): Promise<void> {
+  await knex.schema.createTable('users', (table) => {
+    table.increments('id').primary();
+    table.string('first_name').notNullable();
+    table.string('last_name').notNullable();
+    table.string('email').unique().notNullable();
+    table.string('password').notNullable();
+  });
+}
 
-exports.up = function(db) {
-  return db.runSql(`
-    CREATE TABLE users (
-      id SERIAL PRIMARY KEY,
-      firstname VARCHAR(100),
-      lastname VARCHAR(100),
-      password_digest VARCHAR(255)
-    );
-  `);
-};
-
-exports.down = function(db) {
-  return db.runSql(`DROP TABLE IF EXISTS users;`);
-};
+export async function down(knex: Knex): Promise<void> {
+  await knex.schema.dropTableIfExists('users');
+}
