@@ -1,19 +1,14 @@
-'use strict';
+import { Knex } from 'knex';
 
-var dbm;
-exports.setup = function(options) { dbm = options.dbmigrate; };
+export async function up(knex: Knex): Promise<void> {
+  await knex.schema.createTable('products', (table) => {
+    table.increments('id').primary();
+    table.string('name').notNullable();
+    table.decimal('price').notNullable();
+    table.string('category');
+  });
+}
 
-exports.up = function(db) {
-  return db.runSql(`
-    CREATE TABLE products (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(150) NOT NULL,
-      price INTEGER NOT NULL,
-      category VARCHAR(100)
-    );
-  `);
-};
-
-exports.down = function(db) {
-  return db.runSql(`DROP TABLE IF EXISTS products;`);
-};
+export async function down(knex: Knex): Promise<void> {
+  await knex.schema.dropTableIfExists('products');
+}
