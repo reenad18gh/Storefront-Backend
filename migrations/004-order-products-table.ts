@@ -1,19 +1,14 @@
-'use strict';
+import { Knex } from 'knex';
 
-var dbm;
-exports.setup = function(options) { dbm = options.dbmigrate; };
+export async function up(knex: Knex): Promise<void> {
+  await knex.schema.createTable('order_products', (table) => {
+    table.increments('id').primary();
+    table.integer('order_id').unsigned().notNullable().references('id').inTable('orders');
+    table.integer('product_id').unsigned().notNullable().references('id').inTable('products');
+    table.integer('quantity').notNullable();
+  });
+}
 
-exports.up = function(db) {
-  return db.runSql(`
-    CREATE TABLE order_products (
-      id SERIAL PRIMARY KEY,
-      order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
-      product_id INTEGER REFERENCES products(id),
-      quantity INTEGER NOT NULL
-    );
-  `);
-};
-
-exports.down = function(db) {
-  return db.runSql(`DROP TABLE IF EXISTS order_products;`);
-};
+export async function down(knex: Knex): Promise<void> {
+  await knex.schema.dropTableIfExists('order_products');
+}
